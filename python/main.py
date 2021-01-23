@@ -1,5 +1,4 @@
 import json
-import boto3
 import re
 
 """
@@ -39,3 +38,11 @@ def lambda_handler(event, context):
         "block": response["Blocks"]
     }
 """
+from table import * 
+def organizeText(): 
+        print(json.dumps(table, indent = 0))
+
+
+    
+organizeText()
+
