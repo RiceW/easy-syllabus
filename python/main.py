@@ -39,10 +39,16 @@ def lambda_handler(event, context):
     }
 """
 from table import * 
+
 def organizeText(): 
-        print(json.dumps(table, indent = 0))
+    
+    count = 0
 
-
+    for items in table["Blocks"]:
+        if items["BlockType"] == "CELL":
+            print(items["RowIndex"])
+    count = count + 1
+            
     
 organizeText()
 
