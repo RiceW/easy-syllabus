@@ -41,10 +41,31 @@ def lambda_handler(event, context):
 from table import * 
 
 def organizeText(): 
-    
+    tableID = []
+    cellID = [] 
+    textID = []
+    finalDictionary = {}
     for items in table["Blocks"]:
+        if items["BlockType"] == "TABLE":
+            tableID.append(items["Id"])
+    for items in table["Blocks"]:
+        if items["Id"] == str(tableID[2]):
+            cellID = items["Relationships"][0]["Ids"]
+    for items in table ["Blocks"]:
         if items["BlockType"] == "CELL":
-            print(items["ColumnIndex"])
+            for cells in cellID:
+                if cells == items['Id']:
+                    textID.append(items["Relationships"][0]["Ids"][0])
+                    filler = []
+                    filler.append(items["RowIndex"])
+                    filler.append(items["ColumnIndex"])
+                    fillerText = str(filler[0]) + "-" + str(filler[1])
+                    finalDictionary[fillerText].append("")
+    print(finalDictionary)
+        
+        
+      
+            
 
             
     
