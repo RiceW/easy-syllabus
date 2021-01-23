@@ -42,12 +42,10 @@ from table import *
 
 def organizeText(): 
     
-    count = 0
-
     for items in table["Blocks"]:
         if items["BlockType"] == "CELL":
-            print(items["RowIndex"])
-    count = count + 1
+            print(items["ColumnIndex"])
+
             
     
 organizeText()
