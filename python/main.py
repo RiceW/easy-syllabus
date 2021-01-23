@@ -1,5 +1,12 @@
 import json
 import re
+import table_out
+
+table = table_out.data
+
+for blocks in table["Blocks"]:
+    if blocks["BlockType"] == "TABLE":
+        print(blocks)
 
 """
 def lambda_handler(event, context):
