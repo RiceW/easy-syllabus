@@ -1,13 +1,6 @@
 import json
 import re
-import table_out
-
-table = table_out.data
-
-for blocks in table["Blocks"]:
-    if blocks["BlockType"] == "TABLE":
-        print(blocks)
-
+from datetime import datetime as d
 """
 def lambda_handler(event, context):
     filePath= event;
@@ -47,18 +40,22 @@ def lambda_handler(event, context):
 """
 from table import * 
 
-def organizeText(): 
+def tableConstructor(): 
     tableID = []
     cellID = [] 
     textID = []
-    finalDictionary = {}
+    coordinates = []
+    words = []
+    output = []
+    smallDictionary = {}
     for items in table["Blocks"]:
         if items["BlockType"] == "TABLE":
             tableID.append(items["Id"])
     for items in table["Blocks"]:
-        if items["Id"] == str(tableID[2]):
+        if items["Id"] == str(tableID[1]):
+            print(tableID)
             cellID = items["Relationships"][0]["Ids"]
-    for items in table ["Blocks"]:
+    for items in table["Blocks"]:
         if items["BlockType"] == "CELL":
             for cells in cellID:
                 if cells == items['Id']:
@@ -66,15 +63,51 @@ def organizeText():
                     filler = []
                     filler.append(items["RowIndex"])
                     filler.append(items["ColumnIndex"])
-                    fillerText = str(filler[0]) + "-" + str(filler[1])
-                    finalDictionary[fillerText].append("")
-    print(finalDictionary)
-        
-        
-      
-            
+                    filler = str(filler[0]) + "-" + str(filler[1])
+                    coordinates.append(filler)
+    for items in table["Blocks"]:
+        if items["BlockType"] == "LINE":
+            for text in textID:
+                if text == items["Relationships"][0]["Ids"][0]:
+                    words.append(items["Text"])
+    target = "2019"
 
-            
+    for items in words:
+        temp = words.index(items)
+        if target in items:
+            items = items.replace(".","")
+            try:
+                words[temp] = str(d.date(d.strptime(items,'%A, %B %d, %Y')))
+            except ValueError:
+                words[temp] = str(d.date(d.strptime(items,'%A, %B %d,%Y')))
+    smallDictionary = dict(zip(coordinates,words)) 
     
-organizeText()
+    divider = "-"
+    count = 1
+    assignment = 2
+    date = 3 
+    
+    for keys in smallDictionary:
+        rows = count + 1
+        mid = keys.index(divider)
+        if rows == key.index[mid-1]:   
+            
+        print(mid)
+    
+tableConstructor()
+"""
 
+
+
+
+for keys in smallDictionary:
+    mid = keys.index(divider)
+    if 
+        tempDict = {}
+        tempDict["id"] = str(count) 
+        tempDict["date"] = 
+
+
+#print(d.date(d.strptime('Sunday, November 10, 2019','%A, %B %d, %Y')))
+#print(d.now().year)
+"""
