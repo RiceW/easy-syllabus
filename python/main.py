@@ -39,7 +39,7 @@ def lambda_handler(event, context):
     }
 """
 
-table = response
+from table import *
 
 def tableConstructor(): 
     tableID = []
@@ -82,61 +82,19 @@ def tableConstructor():
                 words[temp] = str(d.date(d.strptime(items,'%A, %B %d, %Y')))
             except ValueError:
                 words[temp] = str(d.date(d.strptime(items,'%A, %B %d,%Y')))
-    smallDictionary = dict(zip(coordinates,words)) 
+
+    words = words[3:]
+
+    finalOutput = []
+    for x in range(3):
+        td = dict()
+        td["id"] = x + 1
+        td["body"] = words.pop(0)
+        td["date"] = words.pop(0)
+        td["weight"] = words.pop(0)
+        finalOutput.append(td)
     
-    print(smallDictionary)
-   
-    divider = "-"
-    assignment = 1
-    date = 2 
-    weight = 3
-    reference = list(smallDictionary.keys())
-    print(reference)
-    outgoingList = []
-    tempDictionary = {}
-    for key in reference:
-        rows = 2 
-        mid = key.index(divider)
-        category = int(key[mid+1])
-        if rows == int(key[mid-1]):
-            tempDictionary["id"] = 1 
-            if assignment == category:
-                tempDictionary["body"] = smallDictionary[key]
-            elif date == category: 
-                tempDictionary["date"] = smallDictionary[key]
-            elif weight == category:
-                tempDictionary["weighting"] = smallDictionary[key]
-    outgoingList.append(tempDictionary)
-    tempDictionary = {}
-    for key in reference:
-        rows = 3 
-        mid = key.index(divider)
-        category = int(key[mid+1])
-        if rows == int(key[mid-1]):
-            tempDictionary["id"] = 2 
-            if assignment == category:
-                tempDictionary["body"] = smallDictionary[key]
-            elif date == category: 
-                tempDictionary["date"] = smallDictionary[key]
-            elif weight == category:
-                tempDictionary["weighting"] = smallDictionary[key]
-    outgoingList.append(tempDictionary)    
-    tempDictionary = {}
-    for key in reference:
-        rows = 4 
-        mid = key.index(divider)
-        category = int(key[mid+1])
-        if rows == int(key[mid-1]):
-            tempDictionary["id"] = 3 
-            if assignment == category:
-                tempDictionary["body"] = smallDictionary[key]
-            elif date == category: 
-                tempDictionary["date"] = smallDictionary[key]
-            elif weight == category:
-                tempDictionary["weighting"] = smallDictionary[key]
-    outgoingList.append(tempDictionary)    
-    print(outgoingList)   
-   
+    return finalOutput
 
 tableConstructor()
 
