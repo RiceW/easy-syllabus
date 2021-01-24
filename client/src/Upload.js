@@ -8,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import Button from "@material-ui/core/Button";
+import fileDownload from "js-file-download";
 
 const Styles = styled.div`
     .main-wrapper {
@@ -152,6 +153,11 @@ class Upload extends React.Component {
         this.addItem = this.addItem.bind(this);
         this.handleChangeById = this.handleChangeById.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.getFiles = this.getFiles.bind(this);
+    }
+
+    componentDidMount() {
+
     }
 
     deleteById(event, id) {
@@ -208,12 +214,25 @@ class Upload extends React.Component {
         this.setState({ items: items });
     }
 
-    handleSubmit(event) {
+    handleSubmit(e) {
+        var items = this.state.items;
+        var icsString = "BEGIN:VCALENDAR\nVERSION:2"
+
+        for (var i = 0; i < items.length; i++) {
+            icsString += `\nBEGIN:VEVENT\nCLASS:PUBLIC\nDESCRIPTION:${items[i].weight}\nDTSTART;VALUE=DATE:${items[i].date.replace("-", "")}\nSUMMARY:${items[i].name}\nTRANSP:TRANSPARENT\nEND:VEVENT`;
+            console.log(icsString);
+        }
+        icsString += "\nEND:VCALENDAR"
+        fileDownload(icsString, 'event.ics');
+    }
+
+    async getFiles(files) {
 
     }
 
     render() {
         var items = this.state.items;
+
         return(
             <Styles>
                 <div className="main-wrapper">
@@ -228,7 +247,8 @@ class Upload extends React.Component {
                     </div>
                     <div className="files color">
                         <FileBase64
-                        
+                            multiple={true}
+                            onDone={this.getFiles}
                         />
                     </div>
                     <div className="add-button-wrapper">
@@ -242,7 +262,13 @@ class Upload extends React.Component {
                         })}
                     </div>
                     <div className="submit-button-wrapper">
-                        <Button className="button" id="submit-button" onClick={this.handleSubmit} >Export to Calendar</Button>
+                        <Button 
+                            className="button" 
+                            id="submit-button" 
+                            onClick={this.handleSubmit} 
+                        >
+                            Export to Calendar
+                        </Button>    
                     </div>
                 </div>
 
@@ -264,6 +290,7 @@ const ScheduleStyles = styled.div`
         box-sizing: border-box;
         padding-top: 10px;
         padding-bottom: 10px;
+        padding-right: 10px;
     }
 
     .text-fields-wrapper {
