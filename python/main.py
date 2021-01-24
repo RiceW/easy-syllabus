@@ -38,6 +38,8 @@ def lambda_handler(event, context):
         "block": response["Blocks"]
     }
 """
+
+response -> dictionary 
 from table import * 
 
 def tableConstructor(): 
@@ -53,7 +55,6 @@ def tableConstructor():
             tableID.append(items["Id"])
     for items in table["Blocks"]:
         if items["Id"] == str(tableID[1]):
-            print(tableID)
             cellID = items["Relationships"][0]["Ids"]
     for items in table["Blocks"]:
         if items["BlockType"] == "CELL":
@@ -70,6 +71,7 @@ def tableConstructor():
             for text in textID:
                 if text == items["Relationships"][0]["Ids"][0]:
                     words.append(items["Text"])
+    
     target = "2019"
 
     for items in words:
@@ -82,24 +84,31 @@ def tableConstructor():
                 words[temp] = str(d.date(d.strptime(items,'%A, %B %d,%Y')))
     smallDictionary = dict(zip(coordinates,words)) 
     
+    print(smallDictionary)
+   
     divider = "-"
     count = 1
     assignment = 2
     date = 3 
+    refernce = list(smallDictionary.keys())
     
-    for keys in smallDictionary:
-        rows = count + 1
+    for key in reference:
+        mid = key.index(divider)
+          
+       
+        rows = count + 1    
         mid = keys.index(divider)
         if rows == key.index[mid-1]:   
+            mid + 1 
             
         print(mid)
-    
+    """
 tableConstructor()
+
+
+
+
 """
-
-
-
-
 for keys in smallDictionary:
     mid = keys.index(divider)
     if 
